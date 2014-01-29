@@ -26,7 +26,7 @@ var rotateMatrix = function(matrix){
 		tmp.push([]);
 	}
 
-	for(var i = 0; i < max; i++){
+	for(i = 0; i < max; i++){
 		for(var j = 0; j < max; j++){
 			tmp[j][max - i - 1] = matrix[i][j];
 		}
@@ -35,7 +35,23 @@ var rotateMatrix = function(matrix){
 }
 
 var rotateMatrixEfficiently = function(matrix){
+	if(!matrix.length) return null;
+	for(var i = 0, max = matrix.length; i < max; i++){
+		if(matrix[i].length != matrix.length) return null;
+	}
 
+	var tmp;
+	var n = matrix.length - 1;
+	for(i = 0, max = matrix.length / 2; i < max; i++){
+		for(var j = 0, k = matrix.length - 2 * i; j < k - 1; j++){
+			tmp = matrix[i][i + j];
+			matrix[i][i + j] = matrix[n - j - i][i];
+			matrix[n - j - i][i] = matrix[n - i][n - j - i];
+			matrix[n - i][n - j - i] = matrix[i + j][n - i];
+			matrix[i + j][n - i] = tmp;
+		}
+	}
+	return matrix;
 }
 
 
@@ -47,5 +63,5 @@ var matrix = [
 ];
 
 printMatrix(matrix);
-console.log('------------');
-printMatrix(rotateMatrix(matrix));
+console.log();
+printMatrix(rotateMatrixEfficiently(matrix));
